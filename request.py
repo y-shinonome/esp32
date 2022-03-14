@@ -14,5 +14,7 @@ def parse(request):
       return 1
     elif cmd == 'cmd=2':
       return 2
+    elif cmd == 'cmd=3':
+      return 3
   
   return None

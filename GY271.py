@@ -1,4 +1,7 @@
-from math import degrees, atan2 
+# in the implementation the following reference codes were used
+#https://github.com/juliantesla13/micropython-esp32-qmc5883/blob/master/QMC5883.py
+
+from math import sqrt, acos
 from machine import Pin, I2C
 from struct import unpack
 from array import array
@@ -12,7 +15,9 @@ class GY271():
   def __init__ (self):
     self.offsetX = 0
     self.offsetY = 0
-    self.direction = 0
+    self.targetDirectionX = 0
+    self.targetDirectionY = 0
+    self.directionDegrees = 0
 
     self.i2c =i2c= I2C(scl=Pin(SCL), sda=Pin(SDA), freq=400000)
     i2c.start()
@@ -35,9 +40,8 @@ class GY271():
 
     x = unpack('<h', bytes([data[0], data[1]]))[0]   
     y = unpack('<h', bytes([data[2], data[3]]))[0]
-    angle = degrees(atan2(y, x))
 
-    return (x, y, angle)
+    return (x, y)
   
   def calibration(self):
     maxX = 0
@@ -46,7 +50,7 @@ class GY271():
     minY = 0
     
     for i in range(1500):
-      x, y, angle =self.read()
+      x, y = self.read()
       if maxX < x:
         maxX = x
       
@@ -65,4 +69,29 @@ class GY271():
     self.offsetY = ((maxY + minY) / 2)
 
   def setDirection(self):
-    self.direction = self.read()[2]
+    x, y = self.read()
+
+    self.targetDirectionX = x
+    self.targetDirectionY = y
+
+  def directionalDifference(self):
+    currentDirectionX, currentDirectionY = self.read()
+
+    targetVectorLength = sqrt((self.targetDirectionX ** 2) + (self.targetDirectionY ** 2))
+    currentVectorLength = sqrt((currentDirectionX ** 2) + (currentDirectionY ** 2))
+
+    dotProduct = (self.targetDirectionX * currentDirectionX) + (self.targetDirectionY * currentDirectionY)
+
+    if dotProduct == 0:
+      return 0
+    elif targetVectorLength == currentVectorLength:
+      return 0
+
+    theta = acos(dotProduct / (targetVectorLength * currentVectorLength))
+
+    crossProduct = (currentDirectionX * self.targetDirectionY) - (currentDirectionY - self.targetDirectionX)
+
+    if crossProduct < 0:
+      theta = theta * -1
+
+    return theta

@@ -27,7 +27,7 @@ def contents(data):
       <form method="GET">\
         <input type="submit" name="cmd" value="4"> Leave\
         <p>Direction : <input type="number" name="direction" value="' + str(degrees(atan2(data.targetDirectionX, data.targetDirectionY))) + '"></p>\
-        <p>Driving time : <input type="number" name="drivingTime"></p>\
+        <p>Driving time : <input type="number" name="drivingtime" value="0"></p>\
       </form>\
     </body>\
   </html>'

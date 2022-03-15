@@ -89,9 +89,9 @@ class GY271():
 
     theta = acos(dotProduct / (targetVectorLength * currentVectorLength))
 
-    crossProduct = (currentDirectionX * self.targetDirectionY) - (currentDirectionY - self.targetDirectionX)
+    crossProduct = (currentDirectionX * self.targetDirectionY) - (currentDirectionY * self.targetDirectionX)
 
-    if crossProduct < 0:
-      theta = theta * -1
+    #if crossProduct < 0:
+      #theta = theta * -1
 
     return theta

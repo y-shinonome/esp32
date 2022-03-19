@@ -24,8 +24,8 @@ class GY271():
     #Write Register 0BH by 0x01 (Define Set/Reset period)
     i2c.writeto_mem(ADDR, 0xB, b'\x01')
     #Write Register 09H by 0x1D 
-    #(Define OSR = 512, Full Scale Range = 8 Gauss, ODR = 200Hz, set continuous measurement mode)
-    i2c.writeto_mem(ADDR, 0x9, b'\x11101')
+    #(Define OSR = 512, Full Scale Range = 2 Gauss, ODR = 200Hz, set continuous measurement mode)
+    i2c.writeto_mem(ADDR, 0x9, b'\x1101')
     i2c.stop()
 
     #Reserve some memory for the raw xyz measurements.
@@ -38,8 +38,8 @@ class GY271():
     self.i2c.readfrom_mem_into(ADDR, 0x00, data)
     sleep_ms(5)
 
-    x = unpack('<h', bytes([data[0], data[1]]))[0]   
-    y = unpack('<h', bytes([data[2], data[3]]))[0]
+    x = unpack('<h', bytes([data[0], data[1]]))[0] - self.offsetX 
+    y = unpack('<h', bytes([data[2], data[3]]))[0] - self.offsetY
 
     return (x, y)
   
@@ -91,7 +91,7 @@ class GY271():
 
     crossProduct = (currentDirectionX * self.targetDirectionY) - (currentDirectionY * self.targetDirectionX)
 
-    #if crossProduct < 0:
-      #theta = theta * -1
+    if crossProduct < 0:
+      theta = theta * -1
 
     return theta

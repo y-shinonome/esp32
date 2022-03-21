@@ -29,6 +29,11 @@ def contents(data):
         <p>Direction : <input type="number" name="direction" value="' + str(degrees(atan2(data.targetDirectionX, data.targetDirectionY))) + '"></p>\
         <p>Driving time : <input type="number" name="drivingtime" value="0"></p>\
       </form>\
+      <form method="GET">\
+        <input type="submit" name="cmd" value="5"> Test drive\
+        <p>Direction : <input type="number" name="direction" value="' + str(degrees(atan2(data.targetDirectionX, data.targetDirectionY))) + '"></p>\
+        <p>Driving time : <input type="number" name="drivingtime" value="0"></p>\
+      </form>\
     </body>\
   </html>'
   return html

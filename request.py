@@ -24,5 +24,12 @@ def parse(request):
         m = re.search(r'\d+$', m.group(0))
         if m != None:
           drivingTime = int(m.group(0))
+    elif m.group(0) == 'cmd=5':
+      cmd = 5
+      m = re.search(r'drivingtime=(\d*)', request)
+      if m != None:
+        m = re.search(r'\d+$', m.group(0))
+        if m != None:
+          drivingTime = int(m.group(0))
 
   return (cmd, drivingTime)

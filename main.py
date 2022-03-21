@@ -1,4 +1,4 @@
-import network, machine, socket, html, request, motor
+import network, machine, socket, html, request, motor, motorTest
 from GY271 import GY271
 
 ESSID = 'esp32'
@@ -26,6 +26,8 @@ while True:
     gy271.setDirection()
   elif cmd == 4:
     motor.drive(drivingTime, gy271)
+  elif cmd == 5:
+    motorTest.drive(drivingTime, gy271)
 
   response = html.contents(gy271)
   conn.send(response)

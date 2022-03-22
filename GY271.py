@@ -20,13 +20,13 @@ class GY271():
     self.directionDegrees = 0
 
     self.i2c = I2C(scl = Pin(SCL), sda = Pin(SDA), freq = 400000)
-    i2c.start()
+    self.i2c.start()
     #Write Register 0BH by 0x01 (Define Set/Reset period)
-    i2c.writeto_mem(ADDR, 0xB, b'\x01')
+    self.i2c.writeto_mem(ADDR, 0xB, b'\x01')
     #Write Register 09H by 0x1D 
     #(Define OSR = 512, Full Scale Range = 2 Gauss, ODR = 200Hz, set continuous measurement mode)
-    i2c.writeto_mem(ADDR, 0x9, b'\x1101')
-    i2c.stop()
+    self.i2c.writeto_mem(ADDR, 0x9, b'\x1101')
+    self.i2c.stop()
 
     #Reserve some memory for the raw xyz measurements.
     self.data = array('B', [0] * 9)

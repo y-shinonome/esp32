@@ -86,8 +86,8 @@ class GY271():
       return 0
     elif targetVectorLength == currentVectorLength:
       return 0
-
-    theta = acos(dotProduct / (targetVectorLength * currentVectorLength))
+      
+    theta = acos(dotProduct / round(targetVectorLength * currentVectorLength))
 
     crossProduct = (currentDirectionX * self.targetDirectionY) - (currentDirectionY * self.targetDirectionX)
 

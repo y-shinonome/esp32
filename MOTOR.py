@@ -15,13 +15,11 @@ class Motor():
       leftPulseWidth, rightPulseWidth = self.pulseWidth(directionalDifference)
       self.pwmLeft.duty_ns(leftPulseWidth)
       self.pwmRight.duty_ns(rightPulseWidth)
-      print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
   
   def stop(self):
     while self.pwmLeft.duty_ns() != self.minDuty_ns or self.pwmRight.duty_ns() != self.minDuty_ns:
       self.pwmLeft.duty_ns(self.minDuty_ns)
       self.pwmRight.duty_ns(self.minDuty_ns)
-      print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
 
   def pulseWidth(self, radian):
     if radian >= 0:

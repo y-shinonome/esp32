@@ -1,6 +1,6 @@
 import network, machine, socket, html, request
 from GY271 import GY271
-from MOTOR import MOTOR
+from Motor import Motor
 
 ESSID = 'esp32'
 PASSWORD = '12345678'

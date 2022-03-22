@@ -1,7 +1,7 @@
 from machine import PWM, Pin
 from time import time, sleep_ms
 
-class MOTOR():
+class Motor():
   def __init__ (self):
     self.drivingTime = 0
     self.smallCoefficient = 200000

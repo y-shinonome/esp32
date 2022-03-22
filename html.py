@@ -74,6 +74,12 @@ def contents(gy271, motor):
           <input type="submit" name="cmd" value="stop">\
         </form>\
       </div>\
+      <div>\
+        <h3>Reset the device</h3>\
+        <form method="GET">\
+          <input type="submit" name="cmd" value="reset">\
+        </form>\
+      </div>\
       <script>\
         window.onload = () => {\
           let count = document.getElementById("driving_time").value;\

@@ -45,6 +45,8 @@ def parse(request):
       maxDuty_ns = int(result.group(0))
     elif result.group(0) == 'cmd=stop':
       cmd = 4
+    elif result.group(0) == 'cmd=reset':
+      cmd = 5
 
   return (
       cmd, 

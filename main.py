@@ -29,6 +29,13 @@ def motorController(drivingTime):
   finally:
     motor.stop()
 
+def stopMotor():
+  stopTime = time.time()
+
+def resetDevice():
+  gy271 = GY271()
+  motor = Motor()
+
 while True:
   conn, addr = s.accept()
   cmd, drivingTime, smallCoefficient, largeCoefficient, maxDuty_ns = request.parse(str(conn.recv(1024)).lower())
@@ -40,7 +47,9 @@ while True:
     motor.configure(drivingTime, smallCoefficient, largeCoefficient, maxDuty_ns)
     _thread.start_new_thread(motorController, (drivingTime, ))
   elif cmd == 4:
-    stopTime = time.time()
+    stopMotor()
+  elif cmd == 5:
+    resetDevice()
 
   response = html.contents(gy271, motor)
   conn.send(response)

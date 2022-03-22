@@ -6,6 +6,9 @@ def contents(gy271, motor):
     <head>\
       <meta name="viewport" content="width=device-width, initial-scale=1">\
       <style>\
+        html {\
+          font-family: Roboto;\
+        }\
         h3 {\
           margin: 0.5rem;\
         }\
@@ -22,6 +25,12 @@ def contents(gy271, motor):
         }\
         div {\
           margin-bottom: 2rem;\
+        }\
+        input {\
+          font-size: 1em;\
+        }\
+        .conf {\
+          width: 10rem;\
         }\
       </style>\
     </head>\
@@ -52,11 +61,11 @@ def contents(gy271, motor):
         <h3>Drive the drone</h3>\
         <form method="GET">\
           <input type="submit" name="cmd" value="drive">\
-          <p>Direction : <input type="number" name="direction" value="' + str(degrees(atan2(gy271.targetDirectionX, gy271.targetDirectionY))) + '"></p>\
-          <p>Driving time : <input type="number" name="driving_time" value="' + str(motor.drivingTime) + '"></p>\
-          <p>Small coefficient : <input type="number" name="small_coefficient" value="' + str(motor.smallCoefficient) + '"></p>\
-          <p>Large coefficient : <input type="number" name="large_coefficient" value="' + str(motor.largeCoefficient) + '"></p>\
-          <p>Max duty(ns) : <input type="number" name="max_duty_ns" value="' + str(motor.maxDuty_ns) + '"></p>\
+          <p>Direction : <input type="number" class="conf" name="direction" value="' + str(degrees(atan2(gy271.targetDirectionX, gy271.targetDirectionY))) + '"></p>\
+          <p>Driving time : <input type="number" class="conf" name="driving_time" value="' + str(motor.drivingTime) + '"></p>\
+          <p>Small coefficient : <input type="number" class="conf" name="small_coefficient" value="' + str(motor.smallCoefficient) + '"></p>\
+          <p>Large coefficient : <input type="number" class="conf" name="large_coefficient" value="' + str(motor.largeCoefficient) + '"></p>\
+          <p>Max duty(ns) : <input type="number" class="conf" name="max_duty_ns" value="' + str(motor.maxDuty_ns) + '"></p>\
         </form>\
       </div>\
     </body>\

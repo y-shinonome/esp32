@@ -7,7 +7,7 @@ PASSWORD = '12345678'
 IP = '192.168.5.1'
 
 gy271 = GY271()
-motor = MOTOR()
+motor = Motor()
 
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ESSID, authmode=3, password=PASSWORD)

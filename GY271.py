@@ -19,7 +19,7 @@ class GY271():
     self.targetDirectionY = 0
     self.directionDegrees = 0
 
-    self.i2c =i2c= I2C(scl=Pin(SCL), sda=Pin(SDA), freq=400000)
+    self.i2c = I2C(scl = Pin(SCL), sda = Pin(SDA), freq = 400000)
     i2c.start()
     #Write Register 0BH by 0x01 (Define Set/Reset period)
     i2c.writeto_mem(ADDR, 0xB, b'\x01')

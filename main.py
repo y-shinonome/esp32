@@ -20,12 +20,14 @@ s.listen(1)
 
 stopTime = time.time()
 def motorController(drivingTime):
-  global stopTime
-  stopTime = time.time() + drivingTime
-  while time.time() < stopTime:
-    motor.drive(gy271.directionalDifference())
-    time.sleep_ms(5)
-  motor.stop()
+  try:
+    global stopTime
+    stopTime = time.time() + drivingTime
+    while time.time() < stopTime:
+      motor.drive(gy271.directionalDifference())
+      time.sleep_ms(5)
+  finally:
+    motor.stop()
 
 while True:
   conn, addr = s.accept()

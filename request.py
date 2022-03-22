@@ -3,33 +3,51 @@ import re
 def parse(request):
 
   cmd = 0
-  drivingTime = 0   
+  drivingTime = 0
+  smallCoefficient = 0
+  largeCoefficient = 0
+  maxDuty_ns = 0
 
-  m = re.search(r'favicon.ico', request)
+  result = re.search(r'favicon.ico', request)
 
-  if m != None:
-    return (cmd, drivingTime)
+  if result != None:
+    return (
+      cmd, 
+      drivingTime, 
+      smallCoefficient, 
+      largeCoefficient, 
+      maxDuty_ns
+    )
 
-  m = re.search(r'cmd=(\d)', request)
+  result = re.search(r'cmd=[a-z]*', request)
 
-  if m != None:
-    if m.group(0) == 'cmd=1':
+  if result != None:
+    if result.group(0) == 'cmd=calibrate':
       cmd = 1
-    elif m.group(0) == 'cmd=2':
+    elif result.group(0) == 'cmd=set':
       cmd = 2
-    elif m.group(0) == 'cmd=4':
-      cmd = 4
-      m = re.search(r'drivingtime=(\d*)', request)
-      if m != None:
-        m = re.search(r'\d+$', m.group(0))
-        if m != None:
-          drivingTime = int(m.group(0))
-    elif m.group(0) == 'cmd=5':
-      cmd = 5
-      m = re.search(r'drivingtime=(\d*)', request)
-      if m != None:
-        m = re.search(r'\d+$', m.group(0))
-        if m != None:
-          drivingTime = int(m.group(0))
+    elif result.group(0) == 'cmd=drive':
+      cmd = 3
+      result = re.search(r'driving_time=(\d*)', request)
+      result = re.search(r'\d+$', result.group(0))
+      drivingTime = int(result.group(0))
 
-  return (cmd, drivingTime)
+      result = re.search(r'small_coefficient=(\d*)', request)
+      result = re.search(r'\d+$', result.group(0))
+      smallCoefficient = int(result.group(0))
+
+      result = re.search(r'large_coefficient=(\d*)', request)
+      result = re.search(r'\d+$', result.group(0))
+      largeCoefficient = int(result.group(0))
+
+      result = re.search(r'max_duty_ns=(\d*)', request)
+      result = re.search(r'\d+$', result.group(0))
+      maxDuty_ns = int(result.group(0))
+
+  return (
+      cmd, 
+      drivingTime, 
+      smallCoefficient, 
+      largeCoefficient, 
+      maxDuty_ns
+    )

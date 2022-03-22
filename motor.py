@@ -1,39 +1,50 @@
 from machine import PWM, Pin
 from time import time, sleep_ms
 
-pwmLeft = PWM(Pin(0), freq=200, duty_ns=1000000)
-pwmRight = PWM(Pin(2), freq=200, duty_ns=1000000)
+class MOTOR():
+  def __init__ (self):
+    self.drivingTime = 0
+    self.smallCoefficient = 200000
+    self.largeCoefficient = 400000
+    self.maxDuty_ns = 1750000
+    self.minDuty_ns = 1000000
+    self.pwmLeft = PWM(Pin(0), freq=400, duty_ns=self.minDuty_ns)
+    self.pwmRight = PWM(Pin(2), freq=400, duty_ns=self.minDuty_ns)
 
-SMALL_COEFFICIENT = 200000
-LARGE_COEFFICIENT = 400000
-MAX_DUTY_ns = 1750000
-MIN_DUTY_ns = 1000000
+  def drive(self, gy271):
+    stopTime = time() + int(self.drivingTime)
 
-def drive(drivingTime, gy271):
-  stopTime = time() + int(drivingTime)
+    while time() < stopTime:
+      leftPulseWidth, rightPulseWidth = self.pulseWidth(gy271.directionalDifference())
+      self.pwmLeft.duty_ns(leftPulseWidth)
+      self.pwmRight.duty_ns(rightPulseWidth)
+      print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
+      sleep_ms(5)
+    
+    while self.pwmLeft.duty_ns() != self.minDuty_ns or self.pwmRight.duty_ns() != self.minDuty_ns:
+      self.pwmLeft.duty_ns(self.minDuty_ns)
+      self.pwmRight.duty_ns(self.minDuty_ns)
+      print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
+      sleep_ms(5)
 
-  while time() < stopTime:
-    leftPulseWidth, rightPulseWidth = pulseWidth(gy271.directionalDifference())
-    pwmLeft.duty_ns(leftPulseWidth)
-    pwmRight.duty_ns(rightPulseWidth)
-    sleep_ms(5)
-  
-  while pwmLeft.duty_ns() != 1000000 or pwmRight.duty_ns() != 1000000:
-    pwmLeft.duty_ns(MIN_DUTY_ns)
-    pwmRight.duty_ns(MIN_DUTY_ns)
+  def pulseWidth(self, radian):
+    if radian >= 0:
+      leftPulseWidth = (self.maxDuty_ns - (round(radian * self.smallCoefficient)))
+      rightPulseWidth = (self.maxDuty_ns - (round(radian * self.largeCoefficient)))
+    elif radian < 0:
+      leftPulseWidth = (self.maxDuty_ns + (round(radian * self.largeCoefficient)))
+      rightPulseWidth = (self.maxDuty_ns + (round(radian * self.smallCoefficient)))
 
-def pulseWidth(radian):
-  if radian >= 0:
-    leftPulseWidth = (MAX_DUTY_ns - (round(radian * SMALL_COEFFICIENT)))
-    rightPulseWidth = (MAX_DUTY_ns - (round(radian * LARGE_COEFFICIENT)))
-  elif radian < 0:
-    leftPulseWidth = (MAX_DUTY_ns + (round(radian * LARGE_COEFFICIENT)))
-    rightPulseWidth = (MAX_DUTY_ns + (round(radian * SMALL_COEFFICIENT)))
+    if leftPulseWidth < self.minDuty_ns:
+      leftPulseWidth = self.minDuty_ns
+    
+    if rightPulseWidth < self.minDuty_ns:
+      rightPulseWidth = self.minDuty_ns
 
-  if leftPulseWidth < MIN_DUTY_ns:
-    leftPulseWidth = MIN_DUTY_ns
-  
-  if rightPulseWidth < MIN_DUTY_ns:
-    rightPulseWidth = MIN_DUTY_ns
+    return (leftPulseWidth, rightPulseWidth)
 
-  return (leftPulseWidth, rightPulseWidth)
+  def configure(self, drivingTime, smallCoefficient, largeCoefficient, maxDuty_ns):
+    self.drivingTime = drivingTime
+    self.smallCoefficient = smallCoefficient
+    self.largeCoefficient = largeCoefficient
+    self.maxDuty_ns = maxDuty_ns

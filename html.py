@@ -24,7 +24,7 @@ def contents(gy271, motor):
           margin-left: 0rem;\
         }\
         div {\
-          margin-bottom: 2rem;\
+          margin-bottom: 1.5rem;\
         }\
         input {\
           font-size: 1em;\
@@ -58,11 +58,11 @@ def contents(gy271, motor):
         <p>Directional Difference : ' + str(degrees(gy271.directionalDifference())) + '</p>\
       </div>\
       <div>\
-        <h3>Drive the drone</h3>\
+        <h3>Drive the drone<span id="timer"></span></h3>\
         <form method="GET">\
           <input type="submit" name="cmd" value="drive">\
           <p>Direction : <input type="number" class="conf" name="direction" value="' + str(degrees(atan2(gy271.targetDirectionX, gy271.targetDirectionY))) + '"></p>\
-          <p>Driving time : <input type="number" class="conf" name="driving_time" value="' + str(motor.drivingTime) + '"></p>\
+          <p>Driving time : <input type="number" id="driving_time" class="conf" name="driving_time" value="' + str(motor.drivingTime) + '"></p>\
           <p>Small coefficient : <input type="number" class="conf" name="small_coefficient" value="' + str(motor.smallCoefficient) + '"></p>\
           <p>Large coefficient : <input type="number" class="conf" name="large_coefficient" value="' + str(motor.largeCoefficient) + '"></p>\
           <p>Max duty(ns) : <input type="number" class="conf" name="max_duty_ns" value="' + str(motor.maxDuty_ns) + '"></p>\
@@ -74,6 +74,20 @@ def contents(gy271, motor):
           <input type="submit" name="cmd" value="stop">\
         </form>\
       </div>\
+      <script>\
+        window.onload = () => {\
+          let count = document.getElementById("driving_time").value;\
+          const countdown = setInterval(() => {\
+            if (count == 0) {\
+              clearInterval(countdown);\
+              timer.innerHTML="";\
+            } else {\
+              count --;\
+              timer.innerHTML = " : " + String(count);\
+            }\
+          } ,1000);\
+        }\
+      </script>\
     </body>\
   </html>'
   return html

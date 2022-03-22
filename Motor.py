@@ -11,21 +11,17 @@ class Motor():
     self.pwmLeft = PWM(Pin(0), freq = 400, duty_ns = self.minDuty_ns)
     self.pwmRight = PWM(Pin(2), freq = 400, duty_ns = self.minDuty_ns)
 
-  def drive(self, gy271):
-    stopTime = time() + int(self.drivingTime)
-
-    while time() < stopTime:
-      leftPulseWidth, rightPulseWidth = self.pulseWidth(gy271.directionalDifference())
+  def drive(self, directionalDifference):
+      leftPulseWidth, rightPulseWidth = self.pulseWidth(directionalDifference)
       self.pwmLeft.duty_ns(leftPulseWidth)
       self.pwmRight.duty_ns(rightPulseWidth)
       print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
-      sleep_ms(5)
-    
+  
+  def stop(self):
     while self.pwmLeft.duty_ns() != self.minDuty_ns or self.pwmRight.duty_ns() != self.minDuty_ns:
       self.pwmLeft.duty_ns(self.minDuty_ns)
       self.pwmRight.duty_ns(self.minDuty_ns)
       print(self.pwmLeft.duty_ns(), self.pwmRight.duty_ns())
-      sleep_ms(5)
 
   def pulseWidth(self, radian):
     if radian >= 0:

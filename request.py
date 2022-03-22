@@ -43,6 +43,8 @@ def parse(request):
       result = re.search(r'max_duty_ns=(\d*)', request)
       result = re.search(r'\d+$', result.group(0))
       maxDuty_ns = int(result.group(0))
+    elif result.group(0) == 'cmd=stop':
+      cmd = 4
 
   return (
       cmd, 

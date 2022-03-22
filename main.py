@@ -18,7 +18,9 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('', 80))
 s.listen(1)
 
+stopTime = time.time()
 def motorController(drivingTime):
+  global stopTime
   stopTime = time.time() + drivingTime
   while time.time() < stopTime:
     motor.drive(gy271.directionalDifference())
@@ -35,6 +37,8 @@ while True:
   elif cmd == 3:
     motor.configure(drivingTime, smallCoefficient, largeCoefficient, maxDuty_ns)
     _thread.start_new_thread(motorController, (drivingTime, ))
+  elif cmd == 4:
+    stopTime = time.time()
 
   response = html.contents(gy271, motor)
   conn.send(response)

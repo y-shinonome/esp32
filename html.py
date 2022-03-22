@@ -68,6 +68,12 @@ def contents(gy271, motor):
           <p>Max duty(ns) : <input type="number" class="conf" name="max_duty_ns" value="' + str(motor.maxDuty_ns) + '"></p>\
         </form>\
       </div>\
+      <div>\
+        <h3>Stop the drone</h3>\
+        <form method="GET">\
+          <input type="submit" name="cmd" value="stop">\
+        </form>\
+      </div>\
     </body>\
   </html>'
   return html

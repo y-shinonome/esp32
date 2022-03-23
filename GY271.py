@@ -49,7 +49,7 @@ class GY271():
     maxY = 0
     minY = 0
     
-    for i in range(1500):
+    for i in range(1000):
       x, y = self.read()
       if maxX < x:
         maxX = x

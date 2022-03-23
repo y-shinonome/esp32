@@ -1,6 +1,6 @@
 from math import degrees, atan2
 
-def contents(gy271, motor):
+def contents(gy271, motor, drivingTime):
   html = \
   '<html>\
     <head>\
@@ -82,7 +82,7 @@ def contents(gy271, motor):
       </div>\
       <script>\
         window.onload = () => {\
-          let count = document.getElementById("driving_time").value;\
+          let count = ' + str(drivingTime) + ';\
           const countdown = setInterval(() => {\
             if (count == 0) {\
               clearInterval(countdown);\

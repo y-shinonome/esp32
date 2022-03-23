@@ -51,7 +51,7 @@ while True:
   elif cmd == 5:
     resetDevice()
 
-  response = html.contents(gy271, motor)
+  response = html.contents(gy271, motor, drivingTime)
   conn.send(response)
 
   conn.close()

@@ -30,6 +30,7 @@ def motorController(drivingTime):
     motor.stop()
 
 def stopMotor():
+  global stopTime
   stopTime = time.time()
 
 def resetDevice():
